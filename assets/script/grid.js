@@ -10,11 +10,13 @@ export const GRID_TYPE = cc.Enum({
 });
 
 /** 正常走路代价 */
-const NORMAL_PRICE = 1;
+const BASE_PRICE = 1;
 /** 水路代价 */
-const WATER_PRICE = 3 * NORMAL_PRICE;
+const WATER_PRICE = 3 * BASE_PRICE;
 /** 泥路代价 */
-const MIRE_PRICE = 2 * NORMAL_PRICE;
+const MIRE_PRICE = 2 * BASE_PRICE;
+/** 障碍物代价 */
+const WALL_PRICE = 0;
 
 // 坐标，边长，颜色
 class Block {
@@ -48,7 +50,14 @@ class Block {
     }
 
     getPrice() {
-        const PRICE_LIST = [NORMAL_PRICE, 0, 0, 0, WATER_PRICE, MIRE_PRICE];
+        const PRICE_LIST = [
+            BASE_PRICE, 
+            BASE_PRICE, 
+            BASE_PRICE, 
+            WALL_PRICE, 
+            WATER_PRICE, 
+            MIRE_PRICE
+        ];
         return PRICE_LIST[this._gridType];
     }
 }

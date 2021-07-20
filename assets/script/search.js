@@ -3,6 +3,8 @@ import { GRID_TYPE } from './grid';
 
 /** 斜边代价 */
 const HYPOTENUSE_PRICE = 1.41;
+/** 默认直线代价 */
+const BASE_PRICE = 1;
 
 class Search {
     constructor(Grid, isEightDirection = false) {
@@ -65,6 +67,8 @@ class Search {
                 this.searchComplete = true
                 let endBlock = this.grid.gridToBlock(end)
                 endBlock.parent = currentBlock
+                this.computeFGH(endBlock);
+                cc.log('最短路径F:', endBlock.F);
                 this.parseResult(endBlock)
             }
         })
@@ -171,7 +175,7 @@ class Search {
                 newOpenBlock.push(block)
 
             } else if (currentBlock.G + 1 < block.G) {
-                cc.log('@@@@@@@');
+                cc.log('有更优路径');
                 // 使用当前路径到达相邻block时 F值若小于之前block的F值 则需要更新block的parent
                 // 由于 H值为固定 则优化判断 由当前block的G值+由当前block到达该相邻block的代价小于该相邻block的G值时
                 // 然后更新 F值与parent
@@ -194,7 +198,7 @@ class Search {
         // 常用的预估H值的方法有  曼哈顿距离 欧氏距离 对角线估价
         // 此处使用最简单的 曼哈段距离 进行预估
         // H = 当前方块到结束点的水平距离 + 当前方块到结束点的垂直巨鹿
-        block.H = Math.abs(end.x - grid.x) + Math.abs(end.y - grid.y)
+        block.H = (Math.abs(end.x - grid.x) + Math.abs(end.y - grid.y)) * BASE_PRICE;
         block.F = block.G + block.H
         block.grid = this.grid.blockToGrid(block)
     }
@@ -218,7 +222,7 @@ class Search {
         if (deltaX === 1 && deltaY === 1) {
             return HYPOTENUSE_PRICE * this.getAveragePrice(srcBlock, dstBlock);
         } else if (srcGrid.x === dstGrid.x || srcGrid.y === dstGrid.y) {
-            return this.getAveragePrice(srcBlock, dstBlock);
+            return BASE_PRICE * this.getAveragePrice(srcBlock, dstBlock);
         }
     }
 

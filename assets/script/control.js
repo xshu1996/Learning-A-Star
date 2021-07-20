@@ -84,6 +84,10 @@ cc.Class({
     mouseDownAction(point) {
         let grid = this.grid
         let isClickGrid = grid.pointInGrid(point)
+        // if (isClickGrid) {
+        //     let gridPosition = grid.positionToGrid(point)
+        //     cc.log(grid.gridToBlock(gridPosition));
+        // }
 
         if (this.clickBlockState == GRID_TYPE.START_GRID || this.clickBlockState == GRID_TYPE.END_GRID) {
             return
@@ -91,7 +95,6 @@ cc.Class({
 
         if (isClickGrid) {
             let gridPosition = grid.positionToGrid(point)
-            cc.log(grid.gridToBlock(gridPosition));
             if (this.lastGridPosition.x == gridPosition.x && this.lastGridPosition.y == gridPosition.y) {
                 return
             }
