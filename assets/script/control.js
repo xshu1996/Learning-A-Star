@@ -23,7 +23,7 @@ cc.Class({
         this.search = new Search(this.grid, this.p_btnEightSwitch?.checkMark?.node?.active);
         this.player = this.canvas.getChildByName('player')
         this.player.active = false
-        this._selectType = GRID_TYPE.NORMAL_GRID;
+        this._selectType = this._selectType ?? GRID_TYPE.NORMAL_GRID;
     },
 
     start() {
