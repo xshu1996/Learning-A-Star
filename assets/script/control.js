@@ -172,7 +172,8 @@ cc.Class({
 
     // 沿着路径行走
     moveByPath() {
-        let path = this.search.pathPoint
+        let path = this.search.pathPoint;
+        if (path.length < 1) return;
         let start = path[path.length - 1]
         let player = this.player
         player.x = start.x
@@ -215,7 +216,8 @@ cc.Class({
     // 绘制路径
     drawPath() {
         let g = this.graphics
-        let path = this.search.pathPoint
+        let path = this.search.pathPoint;
+        if (path.length <= 0) return;
         g.moveTo(path[0].x, path[0].y)
         for (let i = 0; i < path.length; i++) {
             let p = path[i]
