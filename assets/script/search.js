@@ -174,7 +174,7 @@ class Search {
                 }
                 newOpenBlock.push(block)
 
-            } else if (currentBlock.G + 1 < block.G) {
+            } else if (currentBlock.G + this.getAveragePrice(currentBlock, block) < block.G) {
                 cc.log('有更优路径');
                 // 使用当前路径到达相邻block时 F值若小于之前block的F值 则需要更新block的parent
                 // 由于 H值为固定 则优化判断 由当前block的G值+由当前block到达该相邻block的代价小于该相邻block的G值时
