@@ -49,13 +49,14 @@ class Search {
 
         // pop操作选择F值最小的  所以根据F值从大到小排序 再根据G进行二级排序
         // 排序方法不同，面对不同地形的搜索效率也不同，感兴趣可以修改一下排序方法
-        this.openList.sort((a, b) => {
-            if (b.F == a.F) {
-                return a.H - b.H // 仍然有可能不是最短路径，较优路径但是搜索的次数大幅增长
-                // return a.G - b.G  // 不是最短路径，搜索比较快
-            }
-            return b.F - a.F
-        })
+        // this.openList.sort((a, b) => {
+        //     if (b.F == a.F) {
+        //         return a.H - b.H // 仍然有可能不是最短路径，较优路径但是搜索的次数大幅增长
+        //         // return a.G - b.G  // 不是最短路径，搜索比较快
+        //     }
+        //     return b.F - a.F
+        // })
+        this.sortOpenList(this.openList);
         // cc.log('openList', this.openList);
         // cc.log('closeList', this.closeList);
         // 查看是否已经搜索到终点
@@ -235,6 +236,22 @@ class Search {
     getAveragePrice(srcBlock, dstBlock) {
         const ret = 0.5 * srcBlock.getPrice() + 0.5 * dstBlock.getPrice();
         return ret;
+    }
+
+    sortOpenList(openList) {
+        const len = openList.length;
+
+        for (let i = len - 2; i >= 0; --i) {
+            if (openList[i].F < openList[len - 1].F) {
+                [openList[i], openList[len - 1]] = [openList[len - 1], openList[i]];
+            } else if (openList[i].F === openList[len - 1].F) {
+                if (openList[i].H > openList[len - 1].H) {
+                    [openList[i], openList[len - 1]] = [openList[len - 1], openList[i]];
+                }
+            }
+        }
+
+        return openList;
     }
 }
 
